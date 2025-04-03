@@ -12,7 +12,7 @@ type LexerTest struct {
 }
 
 func TestVarAssign(t *testing.T) {
-	input := readSourceFile(t, "source_01.mke")
+	input := readSourceFile(t, "s01_assignment.mke")
 	tests := []LexerTest{
 		{token.LET, "let"},
 		{token.IDENT, "five"},
@@ -25,7 +25,7 @@ func TestVarAssign(t *testing.T) {
 }
 
 func TestFunctionCreate(t *testing.T) {
-	input := readSourceFile(t, "source_02.mke")
+	input := readSourceFile(t, "s02_function.mke")
 	tests := []LexerTest{
 		{token.LET, "let"},
 		{token.IDENT, "add"},
@@ -50,7 +50,7 @@ func TestFunctionCreate(t *testing.T) {
 
 func TestNextToken(t *testing.T) {
 
-	input := readSourceFile(t, "source_03.mke")
+	input := readSourceFile(t, "s03_functions2.mke")
 	tests := []LexerTest{
 
 		{token.LET, "let"},
@@ -98,6 +98,46 @@ func TestNextToken(t *testing.T) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.EOF, ""},
+	}
+	tryLexerTestsOnInput(t, input, tests)
+}
+
+func TestIfElse(t *testing.T) {
+	input := readSourceFile(t, "s04_if_else.mke")
+	tests := []LexerTest{
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.INT, "5"},
+		{token.LT, "<"},
+		{token.INT, "10"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.ELSE, "else"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+	}
+
+	tryLexerTestsOnInput(t, input, tests)
+}
+
+func TestComparisons(t *testing.T) {
+	input := readSourceFile(t, "s05_comparisons.mke")
+	tests := []LexerTest{
+		{token.INT, "10"},
+		{token.EQ, "=="},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "10"},
+		{token.NOT_EQ, "!="},
+		{token.INT, "9"},
+		{token.SEMICOLON, ";"},
 	}
 	tryLexerTestsOnInput(t, input, tests)
 }
